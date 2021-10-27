@@ -15,6 +15,8 @@ namespace VRM
         [SerializeField]
         public OffsetOnTransform RightEye;
 
+        public Transform head;
+
         [SerializeField, Header("Degree Mapping")]
         public CurveMapper HorizontalOuter = new CurveMapper(90.0f, 10.0f);
 
@@ -126,6 +128,11 @@ namespace VRM
                 LeftEye.Transform.rotation = LeftEye.InitialWorldMatrix.ExtractRotation() * Matrix4x4.identity.YawPitchRotation(leftYaw, pitch);
                 RightEye.Transform.rotation = RightEye.InitialWorldMatrix.ExtractRotation() * Matrix4x4.identity.YawPitchRotation(rightYaw, pitch);
             }
+
+            if(head != null)
+			{
+                head.LookAt(m_head.Target);
+			}
         }
     }
 }
