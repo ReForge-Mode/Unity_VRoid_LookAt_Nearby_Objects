@@ -19,6 +19,8 @@ public class Look : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
+		if (other.CompareTag("Wall")) return;
+
 		if(nearestObject == null)
 		{
 			nearestObject = other.gameObject;
@@ -57,6 +59,34 @@ public class Look : MonoBehaviour
 		}
 	}
 
+	//Note: Original code from the tutorial.
+	//To quickly uncomment this code, select all lines in green and press Ctrl + K + U
+	//To comment it again, select all and press Ctrl + K + C
+	//private void FindNearestObject()
+	//{
+	//	if (objectsInSight.Count == 0)
+	//	{
+	//		nearestObject = null;
+	//	}
+	//	else if (objectsInSight.Count == 1)
+	//	{
+	//		nearestObject = objectsInSight[0];
+	//	}
+	//	else
+	//	{
+	//		nearestObject = objectsInSight[0];
+	//		for (int i = 1; i < objectsInSight.Count; i++)
+	//		{
+	//			if (Vector3.Distance(face.transform.position, objectsInSight[i].transform.position)
+	//				< Vector3.Distance(face.transform.position, nearestObject.transform.position))
+	//			{
+	//				nearestObject = objectsInSight[i];
+	//			}
+	//		}
+	//	}
+	//}
+
+	//Optimized version
 	private void FindNearestObject()
 	{
 		if(objectsInSight.Count == 0)
@@ -69,13 +99,19 @@ public class Look : MonoBehaviour
 		}
 		else
 		{
+			//This is just a variable to hold our current nearest object (caching)
 			nearestObject = objectsInSight[0];
 			var nearestObjectDistance = getDistance(face.transform.position, 
 											nearestObject.transform.position);
 
 			for (int i = 1; i < objectsInSight.Count; i++)
 			{
-				if(getDistance(face.transform.position, objectsInSight[i].transform.position) 
+
+				//Optimized version: We don't need to recalculate distance between
+				//the current nearest object and the character's face if the current nearest object
+				//is still the same object
+
+				if (getDistance(face.transform.position, objectsInSight[i].transform.position) 
 					< nearestObjectDistance)
 				{
 					nearestObject = objectsInSight[i];
@@ -87,6 +123,9 @@ public class Look : MonoBehaviour
 		}	
 	}
 
+	//Optimized version: We've replaced Vector3.Distance with sqrMagnitude.
+	//Apparently, Vector3.Distance uses square root function which is more costly.
+	//I don't quite understand that myself, so let's just follow the pros!
 	private float getDistance(Vector3 a, Vector3 b)
 	{
 		return (a - b).sqrMagnitude;
