@@ -1,4 +1,4 @@
-# Unity VRoid Eye Tracking Tutorial
+# Unity VRoid Character Look At Nearby Object Tutorial
 In this tutorial, I'll show you how to use UniVRM plugin to make your characters automatically turn their head to look at objects around them. This mechanic is implemneted in various games like Genshin Impact.
 
 <img src="https://github.com/FFaUniHan/Unity_VRoid_LookAt_Nearby_Objects/blob/main/demo.gif" width=100% height=100%>
